@@ -10,7 +10,7 @@ module.exports = (sequlize, DataTypes) => {
       unique: true,
     },
     password: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     role: {
