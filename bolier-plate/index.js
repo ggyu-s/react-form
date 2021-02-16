@@ -57,17 +57,24 @@ app.post("/login", async (req, res, next) => {
         failure: "비밀번호가 틀렸습니다.",
       });
     }
-    const token = await jwt.sign(user, "secretkey");
-    await User.update(
+    const token = await jwt.sign(
       {
-        token,
+        useremail: user.email,
+        username: user.name,
       },
-      {
-        where: { email: user.email },
-      }
+      "sEcretKey"
     );
-    res.cookie("x_auth", token).status(200).json({
-      success: "login",
+    // await User.update(
+    //   {
+    //     token,
+    //   },
+    //   {
+    //     where: { email: user.email },
+    //   }
+    // );
+    res.cookie("authCookie", token, { httpOnly: true, maxAge: 900000 });
+    res.status(200).json({
+      success: true,
       token: token,
     });
   } catch (error) {
